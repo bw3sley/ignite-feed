@@ -7,16 +7,25 @@
     --gray-700: hsl(240, 6%, 17%);
     --gray-800: hsl(240, 6%, 13%);
     --gray-900: hsl(240, 5%, 7%);
-  
+
+    --green-300: hsl(162, 100%, 35%);
     --green-500: hsl(162, 100%, 26%);
 
-    font-size: 62.5%; /* 1rem = 10px */
+    --red-500: hsl(355, 91%, 66%);
+  
+    font-size: 62.5%;
 }
 
-*, *::after, *::before {
+:focus {
+    outline: transparent;
+
+    box-shadow: 0 0 0 2px var(--green-500);
+}
+
+*, *::before, *::after {
     margin: 0;
     padding: 0;
-    
+
     box-sizing: border-box;
 
     font-size: 1.6rem;
