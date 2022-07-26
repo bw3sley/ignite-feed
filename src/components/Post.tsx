@@ -1,81 +1,139 @@
+import { useState, FormEvent, ChangeEvent, InvalidEvent } from "react";
+
+import { format, formatDistanceToNow } from "date-fns";
+import ptBR from "date-fns/locale/pt-BR"
+
 import { Avatar } from "./Avatar";
 import { Comment } from "./Comment";
 
 import styles from "./Post.module.css";
 
-export function Post() {
+interface IAuthor {
+  name: string;
+  role: string;
+  avatarUrl: string;
+}
+
+interface IContent {
+  type: "paragraph" | "link";
+  content: string;
+}
+
+interface IPostProps {
+  author: IAuthor;
+  publishedAt: Date;
+  content: IContent[];
+}
+
+export function Post({ author, content, publishedAt }: IPostProps) {
+    const [comments, setComments] = useState(["Post muito bacana, hein?!"]);
+    const [newCommentText, setNewCommentText] = useState("");
+
+    const publishedDateFormatted = format(publishedAt, "d 'de' LLLL 'às' HH:mm'h'", {
+      locale: ptBR,
+    }) 
+  
+    const publishedDateRelativeToNow = formatDistanceToNow(publishedAt, {
+      locale: ptBR,
+      addSuffix: true
+    })
+
+    function handleCreateNewComment(event: FormEvent) {
+      event.preventDefault();
+
+      setComments([...comments, newCommentText]);
+      setNewCommentText("");
+    }
+
+    function handleNewCommentChange(event: ChangeEvent<HTMLTextAreaElement>) {
+      event.target.setCustomValidity("");
+
+      setNewCommentText(event?.target.value);
+    }
+
+    function handleNewCommentInvalid(event: InvalidEvent<HTMLTextAreaElement>) {
+      event.target.setCustomValidity("Esse campo é obrigatório!");
+    }
+
+    function deleteComment(commentToDelete: string) {
+      const commentsWithoutDeletedOne = comments.filter(comment => {
+        return comment !== commentToDelete;
+      })
+  
+      setComments(commentsWithoutDeletedOne);
+    }
+
+    const isNewCommentEmpty = newCommentText.length === 0;
+
     return (
       <article className={styles.post}>
         <header>
           <div className={styles.author}>
             <Avatar 
-                src="https://github.com/bw3sley.png" 
-                hasBorder
+              src={author.avatarUrl}
+              hasBorder
             />
           
             <div className={styles.authorInfo}>
               <strong>
-                Wesley Bernardes
+                {author.name}
               </strong>
               
               <span>
-                Web Developer
+                {author.role}
               </span>
             </div>
           </div>
 
           <time 
-            title="18 de Julho às 21:29" 
-            dateTime="2022-07-18 21:29:00"
+            title={publishedDateFormatted} 
+            dateTime={publishedAt.toISOString()}
           >
-            Publicado a 1h
+            {publishedDateRelativeToNow}
           </time>
         </header>
 
         <div className={styles.content}>
-          <p>
-            Fala galeraa 👋
-          </p>
+          { content.map(line => {
+            if(line.type == "paragraph") return <p key={line.content}>{line.content}</p>
 
-          <p>
-            Acabei de subir mais um projeto no meu portifa. É um projeto que fiz no NLW Return, evento da Rocketseat. O nome do projeto é DoctorCare 🚀
-          </p>
-
-          <p>
-            <a href="#">jane.design/doctorcare</a>
-          </p>
-
-          <p>
-            <a href="#">
-              #novoprojeto
-            </a> {" "}
-            
-            <a href="#">
-              #nlw 
-            </a> {" "}
-
-            <a href="#">
-              #rocketseat
-            </a> 
-          </p>
+            else if(line.type == "link") return <p key={line.content}><a href="#">{line.content}</a></p>
+          }) }
         </div>
 
-        <form className={styles.commentForm}>
+        <form onSubmit={handleCreateNewComment} className={styles.commentForm}>
           <strong>Deixe seu feedback</strong>
 
           <textarea 
+            name="comment"
+            value={newCommentText}
             placeholder="Deixe seu comentário..."
+            onChange={handleNewCommentChange}
+            onInvalid={handleNewCommentInvalid}
+            required
           />
 
           <footer>
-            <button type="submit">Publicar</button>
+            <button 
+              type="submit"
+              disabled={isNewCommentEmpty}
+            >
+              Publicar
+            </button>
           </footer>
         </form>
 
         <div className={styles.commentList}>
-          <Comment />
-          <Comment />
-          <Comment />
+          { comments.map(comment => { 
+            return ( 
+                <Comment 
+                  key={comment} 
+                  content={comment} 
+                  onDeleteComment={deleteComment} 
+                />
+              ) 
+            })
+          }
         </div>
       </article>
     )
