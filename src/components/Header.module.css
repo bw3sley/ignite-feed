@@ -4,11 +4,10 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 1.6rem;
 
-    padding: 2rem 0;
+    padding: 1.25rem 0;
 }
 
 .header img {
-    height: 3.2rem;
+    height: 2rem;
 }

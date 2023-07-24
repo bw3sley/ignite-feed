@@ -1,18 +1,18 @@
 .wrapper {
-    max-width: 112rem;
+    max-width: 70rem;
 
-    margin: 3.2rem auto;
-    padding: 0 1.6rem;
+    margin: 2rem auto;
+    padding: 0 1rem;
 
     display: grid;
-    grid-template-columns: 25.6rem 1fr;
-    gap: 3.2rem;
+    grid-template-columns: 256px 1fr;
     align-items: flex-start;
+    gap: 2rem;
 }
 
 @media (max-width: 768px) {
-    *, *::after, *::before {
-        font-size: 1.4rem;
+    html {
+        font-size: 87.5%;
     }
 
     .wrapper {

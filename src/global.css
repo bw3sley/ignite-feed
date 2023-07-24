@@ -1,25 +1,17 @@
 :root {
-    --white: hsl(0, 0%, 100%);
-    --gray-100: hsl(240, 9%, 89%);
-    --gray-300: hsl(240, 7%, 78%);
-    --gray-400: hsl(240, 6%, 58%);
-    --gray-600: hsl(240, 6%, 21%);
-    --gray-700: hsl(240, 6%, 17%);
-    --gray-800: hsl(240, 6%, 13%);
-    --gray-900: hsl(240, 5%, 7%);
+    --white: #fff;
+    --gray-100: #e1e1e6;
+    --gray-300: #c4c4cc;
+    --gray-400: #8d8d99;
+    --gray-600: #323238;
+    --gray-700: #29292e;
+    --gray-800: #202024;
+    --gray-900: #121214;
 
-    --green-300: hsl(162, 100%, 35%);
-    --green-500: hsl(162, 100%, 26%);
+    --green-300: #00B37E;
+    --green-500: #00875f;
 
-    --red-500: hsl(355, 91%, 66%);
-  
-    font-size: 62.5%;
-}
-
-:focus {
-    outline: transparent;
-
-    box-shadow: 0 0 0 2px var(--green-500);
+    --red-500: #f75a68;
 }
 
 *, *::before, *::after {
@@ -28,13 +20,25 @@
 
     box-sizing: border-box;
 
-    font-size: 1.6rem;
-    font-family: 'Roboto', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
-body {
-    background-color: var(--gray-900);
-    color: var(--gray-100);
+:focus {
+    outline: transparent;
+    
+    box-shadow: 0 0 0 2px var(--green-500);
+  }
+body, html {
+    width: 100%;
+    height: 100%;
 
-    -webkit-font-smoothing: antialiased;
+    background-color: var(--gray-900);
+    color: var(--gray-300);
+}
+
+body, input, textarea, button {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    font-size: 1rem;
 }
